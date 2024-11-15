@@ -1,0 +1,45 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu Left</title>
+<%
+String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+		+ request.getContextPath();
+%>
+<link rel="stylesheet" href="<%=url%>/css/mdb.min.css">
+</head>
+<body>
+	<div class="container-fluid mt-3">
+		<div class="list-group">
+			<a href="#" class="list-group-item list-group-item-dark">Danh Mục Sản Phẩm</a>
+			<a href="#" class="list-group-item list-group-item-action">Điện Thoại & Phụ Kiện</a>
+			<a href="#" class="list-group-item list-group-item-action">Máy Ảnh & Quay Phim</a>
+			<a href="#" class="list-group-item list-group-item-action">Máy Tính & Laptop</a>
+			<a href="#" class="list-group-item list-group-item-action">Thời Trang Nam</a>
+			<a href="#" class="list-group-item list-group-item-action">Thời Trang Nữ</a>
+			<a href="#" class="list-group-item list-group-item-action">Giày Dép Nữ</a>
+			<a href="#" class="list-group-item list-group-item-action">Giày Dép Nam</a>
+			<a href="#" class="list-group-item list-group-item-action">Mẹ & Bé</a>
+			<a href="#" class="list-group-item list-group-item-action">Thời Trang Trẻ Em</a>
+			<a href="#" class="list-group-item list-group-item-action">Đồng hồ</a>
+			<a href="#" class="list-group-item list-group-item-action">Phụ Kiện & Trang Sức Nữ</a>
+			<a href="#" class="list-group-item list-group-item-action">Ô Tô & Xe Máy & Xe Đạp</a>
+			<a href="#" class="list-group-item list-group-item-action">Túi Ví Nữ</a>
+			<a href="#" class="list-group-item list-group-item-action">Sức Khỏe</a>
+			<a href="#" class="list-group-item list-group-item-action">Vourcher & Dịch Vụ</a>
+			<a href="#" class="list-group-item list-group-item-action">Giặt Giũ & Chăm Sóc Nhà
+				Cửa</a>
+			<a href="#" class="list-group-item list-group-item-action">Nhà Sách Online</a>
+			<a href="#" class="list-group-item list-group-item-action">Chăm Sóc Thú Cưng</a>
+			<a href="#" class="list-group-item list-group-item-action">Dụng Cụ & Thiết Bị Tiện
+				Ích</a>
+		</div>
+	</div>
+	</script>
+	<!-- MDB -->
+	<script type="text/javascript" src="<%=url%>/js/mdb.umd.min.js"></script>
+</body>
+</html>

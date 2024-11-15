@@ -1,0 +1,31 @@
+package util;
+
+import java.security.SecureRandom;
+
+public class getpass {
+
+	private static final String ALLOWED_CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#&()–[{}]:;',?/*~$^+=<>";
+
+	public static String generatePassword(int length) {
+		String pwd ="";
+		if (length <= 0) {
+			throw new IllegalArgumentException("Length must be positive.");
+		}
+
+		SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder(length);
+
+		for (int i = 0; i < length; i++) {
+			int randomIndex = random.nextInt(ALLOWED_CHARACTERS.length());
+			sb.append(ALLOWED_CHARACTERS.charAt(randomIndex));
+		}
+		pwd = sb.toString();
+		return pwd;
+	}
+
+	public static void main(String[] args) {
+		String password = generatePassword(15);
+		System.out.println("Generated password: " + password);
+
+	}
+}

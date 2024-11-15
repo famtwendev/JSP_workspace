@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng Ký Thi ATTT</title>
+<link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+	<form id="form-1" action="google.com">
+		<table id="table-1">
+			<thead>
+				<tr>
+					<th colspan="2">
+						<h1>ĐĂNG KÝ TÀI KHOẢN</h1>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><h3 text-align: left>
+							<strong>Thông tin học sinh:</strong>
+						</h3></td>
+					<td><h3 text-align: right>
+							<b>Thông tin trường:</b>
+						</h3></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="hoVaTen" id="idHoVaTen"
+						placeholder="Họ và tên *" style="border-radius: 4px;"></td>
+					<td><select name="tinhThanhPho" id="idTinhThanhPho"
+						style="border-radius: 4px; width: 325px">
+							<option value="" disabled selected hidden>Tỉnh / Thành
+								Phố *</option>
+							<option value="TPHCM">TP. Hồ Chí Minh</option>
+							<option value="BRVT">Bà Rịa Vũng Tàu</option>
+							<option value="QN">Quãng Ngãi</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td><input type="date" name="ngaySinh" id="idNgaySinh"
+						placeholder="Ngày Sinh (dd/mm/yy)" style="border-radius: 4px;"></td>
+					<td><select name="tinhThanhPho" id="idTinhThanhPho"
+						style="border-radius: 4px; width: 180px">
+							<option value="" disabled selected hidden>Quận / Huyện *</option>
+							<option value="Q1">Quận 1</option>
+							<option value="Q2">Quận 2</option>
+							<option value="BT">Quận Bình Thạnh</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="tenDangNhap" id="idTenDangNhap"
+						placeholder="Tên đăng nhập *" style="border-radius: 4px;"></td>
+					<td><label>Giới tính: </label> <input type="radio"
+						name="gioiTinh" id="idGioiTinhNam" value="M"> <label
+						for="idGioiTinhNam">Nam</label> <input type="radio"
+						name="gioiTinh" id="idGioiTinhNu" value="F"> <label
+						for="idGioiTinhNu">Nữ</label><input type="radio" name="gioiTinh"
+						id="idGioiTinhKhac" value="O"> <label for="idGioiTinhKhac">Khác</label>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="password" name="password" id="idPassword"
+						placeholder="Mật Khẩu *"></td>
+					<td><select name="truong" id="idTruong"
+						style="border-radius: 4px; width: 194px">
+							<option value="" disabled selected hidden>Trường *</option>
+							<option value="HUTECH">Đại học Hutech</option>
+							<option value="SPKT">Đại học Sư Phạm Kỹ Thuật TP.HCM</option>
+					</select> <input type="button" name="themTruong" id="idThemTruong"
+						value="Thêm Trường"></td>
+				</tr>
+				<tr>
+					<td><input type="password" name="re_password"
+						id="idRe_Password" placeholder="Nhập lại mật khẩu *"></td>
+					<td><select name="khoi" id="idKhoi"
+						style="border-radius: 4px; width: 93px">
+							<option value="" disabled selected hidden>Khối *</option>
+							<option value="K1">Khối 1</option>
+							<option value="K2">Khối 2</option>
+					</select><input type="text" name="lop" id="idLop" placeholder="Lớp *"
+						style="border-radius: 4px; width: 226px"></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<td></td>
+				<td><input type="submit" value="Gửi Thông Tin"> <input
+					type="reset" value="Reset"></td>
+			</tfoot>
+
+		</table>
+	</form>
+</body>
+</html>

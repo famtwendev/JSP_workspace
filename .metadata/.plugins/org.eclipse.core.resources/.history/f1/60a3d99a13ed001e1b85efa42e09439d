@@ -1,0 +1,18 @@
+package util;
+
+import database.KhachHangDAO;
+
+public class quenmatkhau {
+	final static String email="";
+	public static void main(String[] args) {
+		KhachHangDAO khd = new KhachHangDAO();
+		if(khd.kiemTraEmail(email))
+		{
+			// tạo form để chuyển đến servlet quenmatkhau
+		}else {
+			// 
+		}
+	
+	}
+
+}

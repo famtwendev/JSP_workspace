@@ -1,0 +1,66 @@
+package util;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Random;
+
+import database.KhachHangDAO;
+import model.KhachHang;
+
+public class tessttt {
+	public static String getNoiDung(KhachHang kh) {
+		String link = "http://localhost:8080/Bai23_Bookstore10_ThayDoiThongTinKH/khach-hang?hanhDong=xac-thuc&maKhachHang="
+				+ kh.getMaKhachHang() + "&maXacThuc=" + kh.getMaXacThuc();
+		String noiDung = "<p>Famtwen xin ch&agrave;o bạn <strong>" + kh.getHoVaTen() + "</strong>,</p>\r\n"
+				+ "<p>Vui l&ograve;ng x&aacute;c thực t&agrave;i khoản của bạn bằng c&aacute;ch nhập m&atilde; <strong>"
+				+ kh.getMaXacThuc() + "</strong>, hoặc click trực tiếp v&agrave;o đường link sau đ&acirc;y:</p>\r\n"
+				+ "<p><a href=\"" + link + "\">" + link + "</a></p>\r\n"
+				+ "<p>Đ&acirc;y l&agrave; email tự động, vui l&ograve;ng kh&ocirc;ng phản hồi email n&agrave;y.</p>\r\n"
+				+ "<p>Tr&acirc;n trọng cảm ơn.</p>";
+		return noiDung;
+	}
+
+	public static void main(String[] args) {
+		String tenDangNhap = "nguyenphamtuyen2003";
+		String matKhau = "Famtwen2003@@";
+		String hoVaTen = "Nguyn Fam Twen";
+		String gioiTinh = "Nam";
+		String ngaySinh = "2002-01-22";
+		String diaChiKhachHang = "diaChiKhachHang";
+		String diaChiMuaHang = "diaChiMuaHang";
+		String diaChiNhanHang = "diaChiNhanHang";
+		String dienThoai ="dienThoai";
+		String email = "nguyenphamtuyen2003@gmail.com";
+		String dongYNhanEmail = "1";
+		KhachHangDAO khachHangDAO = new KhachHangDAO();
+		Random rd = new Random();
+		String maKhachHang = System.currentTimeMillis() + rd.nextInt(10) + "";
+		KhachHang kh = new KhachHang(maKhachHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, diaChiKhachHang,
+				diaChiNhanHang, diaChiMuaHang, Date.valueOf(ngaySinh), dienThoai, email,
+				dongYNhanEmail != null);
+		if(khachHangDAO.insert(kh)>0) {
+			
+			String otp = AuthenOTP.getSoNgauNhien();
+			
+			System.out.println(otp);
+			// Quy dinh thoi gian hieu luc
+			Date todaysDate = new Date(new java.util.Date().getTime());
+			Calendar c = Calendar.getInstance();
+			c.setTime(todaysDate);
+			c.add(Calendar.DATE, 1);
+			Date hieuLucXacThuc = new Date(c.getTimeInMillis());
+
+			// Trang thai xac thuc = false		 			
+			boolean trangThaiXacThuc = false;
+			
+			kh.setMaXacThuc(otp);
+			kh.setHieuLucMaXacThuc(hieuLucXacThuc);
+			kh.setTrangThaiXacThuc(trangThaiXacThuc);
+			
+			if(khachHangDAO.updateVerifyInformation(kh)>0) {
+				// Gui email cho khach hang
+				Email.sendEmail(kh.getEmail(), "Xác thực tài khoản tại Famtwen.com", getNoiDung(kh));
+			}
+	}
+}
+

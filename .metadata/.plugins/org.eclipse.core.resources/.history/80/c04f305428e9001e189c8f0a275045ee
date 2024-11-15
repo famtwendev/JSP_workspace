@@ -1,0 +1,276 @@
+<%@page import="model.KhachHang"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" shrink-to-fit=no">
+<title>Thay đổi thông tin</title>
+
+<!-- MDB icon -->
+<link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<!-- Google Fonts Roboto -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+<%
+String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+		+ request.getContextPath();
+%>
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="<%=url%>/css/maincs.css">
+<link rel="stylesheet" href="<%=url%>/css/mdb.min.css">
+
+<%
+// Thiết lập biến session để xác định rằng trang đã được chuyển hướng từ một trang khác
+session.setAttribute("redirectedFromAnotherPage", true);
+%>
+</head>
+<body>
+	<%
+	Object objKH = session.getAttribute("khachHang");
+	KhachHang khachHang = null;
+	if (objKH != null)
+		khachHang = (KhachHang) objKH;
+	if (khachHang != null) {
+		response.sendRedirect("./index.jsp"); // Thay "index.jsp" bằng URL của trang chính
+	} else {
+	%>
+	<!-- Section: Design Block -->
+	<section>
+		<%
+		String e_email = request.getAttribute("e_email") + "";
+		e_email = (e_email.equals("null")) ? "" : e_email;
+
+		String e_emailFormat = request.getAttribute("e_emailFormat") + "";
+		e_emailFormat = (e_emailFormat.equals("null")) ? "" : e_emailFormat;
+
+		String e_tenDangNhap = request.getAttribute("e_tenDangNhap") + "";
+		e_tenDangNhap = (e_tenDangNhap.equals("null")) ? "" : e_tenDangNhap;
+
+		String e_tenDangNhapFormat = request.getAttribute("e_tenDangNhapFormat") + "";
+		e_tenDangNhapFormat = (e_tenDangNhapFormat.equals("null")) ? "" : e_tenDangNhapFormat;
+
+		String tenDangNhap = request.getAttribute("tenDangNhap") + "";
+		tenDangNhap = (tenDangNhap.equals("null")) ? "" : tenDangNhap;
+
+		String hoVaTen = request.getAttribute("hoVaTen") + "";
+		hoVaTen = (hoVaTen.equals("null")) ? "" : hoVaTen;
+
+		String gioiTinh = request.getAttribute("gioiTinh") + "";
+		gioiTinh = (gioiTinh.equals("null")) ? "" : gioiTinh;
+
+		String ngaySinh = request.getAttribute("ngaySinh") + "";
+		ngaySinh = (ngaySinh.equals("null")) ? "" : ngaySinh;
+
+		String diaChiKhachHang = request.getAttribute("diaChiKhachHang") + "";
+		diaChiKhachHang = (diaChiKhachHang.equals("null")) ? "" : diaChiKhachHang;
+
+		String diaChiMuaHang = request.getAttribute("diaChiMuaHang") + "";
+		diaChiMuaHang = (diaChiMuaHang.equals("null")) ? "" : diaChiMuaHang;
+
+		String diaChiNhanHang = request.getAttribute("diaChiNhanHang") + "";
+		diaChiNhanHang = (diaChiNhanHang.equals("null")) ? "" : diaChiNhanHang;
+
+		String dienThoai = request.getAttribute("dienThoai") + "";
+		dienThoai = (dienThoai.equals("null")) ? "" : dienThoai;
+
+		String email = request.getAttribute("email") + "";
+		email = (email.equals("null")) ? "" : email;
+
+		String dongYNhanEmail = request.getAttribute("dongYNhanEmail") + "";
+		dongYNhanEmail = (dongYNhanEmail.equals("null")) ? "" : dongYNhanEmail;
+		%>
+		<!-- Header -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid justify-content-center align-items-center">
+				<div>
+					<h1 class="fw-bold">ĐĂNG KÝ TÀI KHOẢN</h1>
+				</div>
+			</div>
+
+		</nav>
+		<!-- neu block thi dung <div class = "container py-4 vh-100">  -->
+		<div class="card-body py-5 h-100">
+			<div class="container-fluid d-flex justify-content-center align-items-center">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-8">
+					<div class="card text-dark" style="border-radius: 1rem;">
+						<form id="myForm" class="form needs-validation m-0" action="khach-hang" method="post">
+							<input type="hidden" name="hanhDong" value="dang-ky">
+							<!-- 2 column grid layout with text inputs for the first and last names -->
+							<p>
+								Nếu bạn đã có tài khoản, hãy đăng nhập
+								<a href="./dangnhap.jsp">tại đây</a>
+								.
+							</p>
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<h3 class="mb-2">Thông tin khách hàng</h3>
+									<div class="form-outline">
+										<label for="tenDangNhap" class="form-label">Tên đăng nhập<span
+											class="red">* <%=e_tenDangNhap%> <%=e_tenDangNhapFormat%></span></label>
+										<input type="text" class="form-control border border-secondary" id="tenDangNhap"
+											name="tenDangNhap" required="required" value="<%=tenDangNhap%>">
+									</div>
+								</div>
+
+								<div class="col-md-6 mb-4">
+									<h3 class="mb-2">Địa chỉ</h3>
+									<div class="form-outline">
+										<label for="diaChiKhachHang" class="form-label">Địa chỉ khách hàng</label>
+										<input type="text" class="form-control border border-secondary"
+											id="diaChiKhachHang" name="diaChiKhachHang" value="<%=diaChiKhachHang%>">
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<label for="matKhau" class="form-label">Mật khẩu<span class="red">*</span></label>
+										<input type="password" class="form-control border border-secondary" id="matKhau"
+											name="matKhau" required="required" onkeyup="kiemTraMatKhau()">
+									</div>
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<label for="diaChiMuaHang" class="form-label">Địa chỉ Mua hàng</label>
+										<input type="text" class="form-control border border-secondary"
+											id="diaChiMuaHang" name="diaChiMuaHang" value="<%=diaChiMuaHang%>">
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<label for="matKhauNhapLai" class="form-label">Xác nhận mật khẩu<span
+											class="red">*</span><span class="red" id="msg"></span>
+										</label>
+										<input type="password" class="form-control border border-secondary"
+											id="matKhauNhapLai" name="matKhauNhapLai" required="required"
+											onkeyup="kiemTraMatKhau()">
+									</div>
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<label for="diaChiNhanHang" class="form-label">Địa chỉ Nhận hàng<span
+											class="red">*</span>
+										</label>
+										<input type="text" class="form-control border border-secondary"
+											id="diaChiNhanHang" name="diaChiNhanHang" value="<%=diaChiNhanHang%>">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<label for="hoVaTen" class="form-label">Họ và tên<span class="red">*</span></label>
+										<input type="text" class="form-control border border-secondary" id="hoVaTen"
+											name="hoVaTen" value="<%=hoVaTen%>" required="required">
+									</div>
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<label for="dienThoai" class="form-label">Điện thoại<span class="red">*</span></label>
+										<input type="tel" class="form-control border border-secondary" id="dienThoai"
+											name="dienThoai" value="<%=dienThoai%>">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<label for="gioiTinh" class="form-label">Giới tính<span class="red">*</span></label>
+									<select class="form-control border border-secondary" id="gioiTinh"
+										name="gioiTinh" required="required">
+										<option selected disabled hidden>---</option>
+										<option value="Nam" <%=(gioiTinh.equals("Nam")) ? "selected='selected'" : ""%>>Nam</option>
+										<option value="Nữ" <%=(gioiTinh.equals("Nữ")) ? "selected='selected'" : ""%>>Nữ</option>
+										<option value="Khác" <%=(gioiTinh.equals("Khác")) ? "selected='selected'" : ""%>>Khác</option>
+									</select>
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="form-outline">
+										<label for="email" class="form-label">Email<span class="red">* <%=e_email%>
+												<%=e_emailFormat%></span></label>
+										<input type="email" class="form-control border border-secondary" id="email"
+											name="email" value="<%=email%>">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<label for="ngaySinh" class="form-label">Ngày sinh<span class="red">*</span></label>
+									<input type="date" class="form-control border border-secondary" id="ngaySinh"
+										name="ngaySinh" value="<%=ngaySinh%>" required="required">
+								</div>
+								<div class="col-md-6 mb-4">
+									<div>
+										<label for="dongYDieuKhoan" class="form-label">Đồng ý với <a href="#">điều
+												khoản của chúng tôi </a>
+										</label>
+										<input type="checkbox" class="form-check-input" id="dongYDieuKhoan"
+											name="dongYDieuKhoan">
+									</div>
+
+									<div>
+										<label for="dongYNhanEmail" class="form-label">Đồng ý nhận thông báo qua
+											Email <span class="red">*</span>
+										</label>
+										<input type="checkbox" class="form-check-input" id="dongYNhanEmail"
+											name="dongYNhanEmail" <%=(dongYNhanEmail.equals("1")) ? "checked" : ""%>>
+									</div>
+								</div>
+							</div>
+							<div class="row justify-content-center align-items-center">
+								<div class="col-md-6 mb-4" style="text-align: right;">
+									<!-- Nút button về trang chủ -->
+									<a href="./index.jsp" class="btn btn-primary btn-lg px-5 mt-3"> Trang chủ </a>
+								</div>
+								<!-- Sử dụng lưới bootstrap -->
+								<div class="col-md-6 mb-4">
+									<input class="btn btn-danger btn-lg px-5 mt-3" type="submit" value="Đăng ký"
+										name="submit" id="submit" disabled>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- function js -->
+	<script src="<%=url%>/js/mainjs.js"></script>
+
+	<!-- MDB -->
+	<script type="text/javascript" src="<%=url%>/js/mdb.umd.min.js"></script>
+	<script type="text/javascript">// Initialization for ES Users
+    import { Input, initMDB } from "mdb-ui-kit";
+    initMDB({ Input });
+</script>
+	<%
+	}
+	%>
+	<!-- Section: Design Block -->
+	<!-- <script>
+	function kiemTraMatKhau() {
+		matKhau = document.getElementById("matKhau").value;
+		matKhauNhapLai = document.getElementById("matKhauNhapLai").value;
+		if (matKhau != matKhauNhapLai) {
+			document.getElementById("msg").textContent = "  Mật khẩu không khớp!";
+			return false;
+		} else {
+			document.getElementById("msg").textContent = "";
+			return true;
+		}
+	}
+</script>  -->
+</body>
+</html>

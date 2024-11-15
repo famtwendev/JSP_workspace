@@ -1,0 +1,40 @@
+package util;
+
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+
+public class Email {
+
+	// Email: nptuyen121314@gmail.com
+	// Password: ohmy xuon onqj tzcl
+	public static void main(String[] args) {
+		final String from = "nptuyen121314@gmail.com";
+		final String password = "ohmyxuononqjtzcl";
+		
+		final String to = "nguyenphamtuyen2003@gmail.com";
+		
+		
+		// Properties : khai báo các thuộc tính
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");   // SMTP HOST
+		props.put("mail.smtp.port", "587");   // TLS 587 SSL 465
+		props.put("mail.smtp.auth", "true");  // Buoc dang nhap
+		props.put("mail.smtp.starttls.enable", "true");
+		
+		// create Authenticator
+		Authenticator auth = new Authenticator() {
+
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				// TODO Auto-generated method stub
+				return new PasswordAuthentication(from, password);
+			}
+			
+			
+			
+		};
+		
+	}
+}

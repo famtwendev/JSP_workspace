@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kb-project>
+ <depends-on-projects/>
+ <used-by-projects/>
+ <paths>
+  <path value="D:/Documents_D/TITV/worlspace_JSP/Bai28_Bookstore15_UploadFile/src/main/webapp/WEB-INF/lib/javax.mail.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/catalina.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/jasper.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-jdbc.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-es.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/catalina-ha.jar"/>
+  <path value="D:/Documents_D/TITV/worlspace_JSP/Bai28_Bookstore15_UploadFile/src/main/webapp/WEB-INF/lib/javax.activation-1.2.0.jar"/>
+  <path value="D:/Documents_D/TITV/worlspace_JSP/Bai28_Bookstore15_UploadFile/src/main/webapp/WEB-INF/lib/protobuf-java-3.19.4.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-jni.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/catalina-storeconfig.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/catalina-tribes.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-util-scan.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/el-api.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-ko.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/websocket-api.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-api.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-pt-BR.jar"/>
+  <path value="D:/Documents_D/TITV/worlspace_JSP/Bai28_Bookstore15_UploadFile/src/main/webapp/WEB-INF/lib/commons-collections-3.2.2.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-fr.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/servlet-api.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/annotations-api.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-dbcp.jar"/>
+  <path value="D:/Documents_D/TITV/worlspace_JSP/Bai28_Bookstore15_UploadFile/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.30.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-websocket.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-util.jar"/>
+  <path value="D:/Documents_D/TITV/worlspace_JSP/Bai28_Bookstore15_UploadFile/src/main/webapp/WEB-INF/lib/commons-codec-1.16.1.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-coyote.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-ja.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/catalina-ssi.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/jsp-api.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-ru.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/catalina-ant.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/jasper-el.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-cs.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/jaspic-api.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-zh-CN.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/ecj-4.20.jar"/>
+  <path value="D:/Program Files/Java/apache-tomcat-9.0.87/lib/tomcat-i18n-de.jar"/>
+ </paths>
+ <validation>
+  <core validator-id="jboss.cdi.core"/>
+  <el/>
+ </validation>
+ <aliases/>
+ <includes/>
+ <uris/>
+</kb-project>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Bai11_RegularExpressions&apos; to &apos;Bai11_RegularExpressions_Batloi_SDT_EMAIL&apos;" description="Rename resource &apos;Bai11_RegularExpressions&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/Bai11_RegularExpressions" name="Bai11_RegularExpressions_Batloi_SDT_EMAIL" stamp="1709622690359" updateReferences="true"/>
+</session>

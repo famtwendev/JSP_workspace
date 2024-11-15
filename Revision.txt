@@ -1,0 +1,177 @@
+CANVA: 
+CHỈNH SLIDER: width 800 height 200
+poster dọc
+
+
+Đăng nhập:
+
+	// hóa mật khẩu: 	
+	matKhau = MaHoa.toSHA1(matKhau);
+
+	if(khachHang!=null)
+	{
+		HttpSession session = request.getSession(); // tạo session để cho KhachHang đã có trong session khachHang
+		session.setAttribute("khachHang", khachHang);
+		rl = "/index.jsp";
+			
+	}else
+	{
+		request.setAttribute("baoLoi", "Sai tên đăng nhập hoặc mật khẩu!");
+		url="/dangnhap.jsp";
+	}
+
+	
+	RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+	rd.forward(request, response);
+
+
+Đăng ký:
+	// Set bảng mã
+	request.setCharacterEncoding("UTF-8");
+	response.setCharacterEncoding("UTF-8");
+	response.setContentType("text/html; charset=UTF-8");
+
+
+	String tenDangNhap = request.getParameter("tenDangNhap");   // lấy ra tenDangNhap đã đki vào form
+	String matKhau = request.getParameter("matKhau");
+
+
+	request.setAttribute("tenDangNhap", tenDangNhap); // lưu tenDangNhap vào attribute tenDangNhap của request để nếu nhập sai còn giữ lại
+	request.setAttribute("hoVaTen", hoVaTen);
+	request.setAttribute("gioiTinh", gioiTinh);
+	request.setAttribute("ngaySinh", ngaySinh);
+
+
+	// Kiem tra format Email
+	Pattern emailPattern = Pattern.compile("\\w+@\\w+(\\.\\w+)+(\\.\\w+)*");
+	Matcher emailMatcher = emailPattern.matcher(email);		
+	if (!emailMatcher.matches()) {
+		checkError = true;
+		request.setAttribute("e_emailFormat", "Vui lòng nhập đúng định dạng email!");
+	}
+
+	// Kiem tra Email ton tai tai khoan chua?
+	if(khachHangDAO.kiemTraEmail(email))
+	{
+		checkError = true;
+		request.setAttribute("e_email","Email vừa nhập đã tồn tại tài khoản . Vui lòng đăng nhập! </br>");
+	}
+		
+	// Kiem tra format username
+	Pattern userPattern = Pattern.compile("^[a-zA-Z0-9.]+$");
+	Matcher userMatcher = userPattern.matcher(tenDangNhap);
+	if (!userMatcher.matches()) {
+		request.setAttribute("e_tenDangNhapFormat", "Vui lòng nhập tên đăng nhập không chứa khoảng trắng và các dấu thanh!");
+		checkError = true;
+	}
+			
+	if(khachHangDAO.kiemTraTenDangNhap(tenDangNhap)) {
+		checkError = true;
+		request.setAttribute("e_tenDangNhap", "Tên đăng nhập đã tồn tại vui lòng chọn tên đăng nhập khác.");
+	}
+
+	// Kiem tra MatKhau ton tai trong db chưa?
+
+	if(!matKhau.equals(matKhauNhapLai))
+	{
+		checkError = true;
+		request.setAttribute("e_matKhau", "Mật khẩu không khớp. </br>");
+	}else
+	{
+		matKhau = MaHoa.toSHA1(matKhau);
+	}
+
+
+	if(checkError)
+	{
+		url="/dangky.jsp";
+	}else {
+		Random rd = new Random();
+		String maKhachHang = System.currentTimeMillis() + rd.nextInt() + "";
+		KhachHang kh = new KhachHang(maKhachHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, diaChiKhachHang, diaChiNhanHang, diaChiMuaHang, 	ate.valueOf(ngaySinh), dienThoai, email, dongYNhanEmail!=null);
+		khachHangDAO.insert(kh);
+		url = "/thanhcong.jsp";
+	}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+		rd.forward(request, response);
+	}
+
+
+ĐĂNG XUẤT
+	// Lấy session ra để hủy session
+	HttpSession session = request.getSession();
+	
+	//destroy
+	session.invalidate();
+		
+	String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()+ request.getContextPath();
+	response.sendRedirect(url+"/index.jsp");
+
+
+ĐỔI MẬT KHẨU
+
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		String urldevice = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+		+ request.getContextPath();
+		
+		
+		String matKhauHienTai = request.getParameter("matKhauHienTai");
+		String matKhauMoi = request.getParameter("matKhauMoi");
+		String matKhauMoiNhapLai = request.getParameter("matKhauMoiNhapLai");
+		
+		
+		// Ma hoa matkhau de so sanh voi mat khau trong db
+		String matKhauHienTai_SHA1 = MaHoa.toSHA1(matKhauHienTai);
+		String matKhauMoi_Sha1 = MaHoa.toSHA1(matKhauMoi);
+		
+		String baoLoi = "";
+		String url = "/doimatkhau.jsp";
+		
+		// Kiem tra user va matkhau cu
+		HttpSession session = request.getSession();
+		
+		Object objKH = session.getAttribute("khachHang");
+		KhachHang khachHang = null;
+		if (objKH != null)
+			khachHang = (KhachHang) objKH;
+		if (khachHang == null) 
+		{
+			baoLoi = "Bạn chưa đăng nhập vào hệ thống";
+		}else	
+		{ 
+			// Khach hang da dang nhap vao he thong
+			if(!matKhauHienTai_SHA1.equals(khachHang.getMatKhau())) {
+				baoLoi = "Mật khẩu hiện tại không chính xác!";
+
+			}else {
+				if(!matKhauMoi.equals(matKhauMoiNhapLai))
+				{
+					baoLoi = "Mật khẩu nhập lại không khớp!";
+				}else if(matKhauMoi_Sha1.equals(matKhauHienTai_SHA1)){
+					baoLoi = "Mật khẩu mới không được trùng với mật khẩu hiện tại";
+				}
+				else
+				{
+					khachHang.setMatKhau(matKhauMoi_Sha1);
+					KhachHangDAO khd = new KhachHangDAO();
+					if(khd.changePasswordForKH(khachHang))
+					{
+						baoLoi = "Đổi mật khẩu thành công!";
+			            // In ra thông báo thành công và chờ 5 giây trước khi quay lại trang chủ
+					    response.setHeader("Refresh", "1; URL=" + urldevice +"/index.jsp"); // Đặt URL trang chủ của bạn
+
+					}else
+					{
+						baoLoi = "Thay đổi mật khẩu thất bại!";
+					}
+				}
+			}
+				
+		}
+		request.setAttribute("baoLoi",baoLoi);
+		
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+		rd.forward(request, response);
+

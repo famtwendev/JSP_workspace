@@ -1,0 +1,17 @@
+package util;
+
+public class mahoaemail {
+	public static String maHoaSao(String email) {
+        String username = email.substring(0, 7); // Lấy 6 ký tự đầu
+        String domain = email.substring(email.indexOf('@')); // Lấy phần sau ký tự '@'
+        String maskedUsername = username + "********";        
+        String maskedEmail = maskedUsername + domain;
+        return maskedEmail;
+	}
+	
+	    public static void main(String[] args) {
+	        String email = "nguyenphamtuyen2003@gmail.com";
+	        System.out.println(maHoaSao(email));
+	    }
+	
+}

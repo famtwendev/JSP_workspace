@@ -1,0 +1,59 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fam Twen | Đăng nhập</title>
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<!-- Google Fonts Roboto -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+<%
+String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+		+ request.getContextPath();
+%>
+<link rel="stylesheet" href="<%=url%>/css/mdb.min.css">
+</head>
+<body>
+	<jsp:include page="../header.jsp" />
+	<!-- Section: Design Block -->
+	<section class="vh-100 text-center" style="background-image: url(./img/background.jpg);">
+		<div class="container py-5 h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col col-xl-10">
+					<div class="card" style="border-radius: 1rem;">
+
+						<form id="frmthanhcong" action="<%=url%>/index.jsp" method="post">
+							<!-- 2 column grid layout with text inputs for the first and last names -->
+
+							<div class="form-outline mt-4">
+								<div class="row justify-content-center">
+									<img src="./img/logopt.png" alt="Dấu tích thành công"
+										style="border-radius: 50%; max-width: 30%; height: auto;" class="img-fluid" />
+								</div>
+							</div>
+
+							<div class="form-outline mt-4">
+								<h1 class="fw-bold mb-4" style="color: red"><%=request.getAttribute("baoLoi") + ""%>
+								</h1>
+								<script>
+									setTimeout(function() {
+										window.location.href = 'index.jsp';
+									}, 10000);
+								</script>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<jsp:include page="../footer.jsp" />
+
+	<!-- Section: Design Block -->
+</body>
+</html>

@@ -1,0 +1,210 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Footer</title>
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<!-- Google Fonts Roboto -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+<%
+String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+		+ request.getContextPath();
+%>
+</head>
+<body>
+
+	<!-- Footer -->
+	<footer class="text-center text-lg-start bg-secondary">
+
+		<!-- Section: Links  -->
+
+		<div class="container-fluid text-center text-md-start pt-3">
+			<!-- Grid row -->
+			<div class="row pt-5">
+				<!-- Grid column -->
+				<div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+					<!-- Content -->
+					<h6 class="text-uppercase fw-bold mb-4">
+						<i class="fas fa-gem me-3"></i>FAM TWEN
+					</h6>
+					<p>
+						<i class="fas fa-phone me-3"></i> Tổng đài CSKH: 19008068
+					</p>
+					<p>
+						<i class="fas fa-envelope me-3"></i> Email: cskh@famtwen.com
+					</p>
+					<p>
+						Fam Twen chúng tôi, cam kết cung cấp dịch vụ tốt nhất có thể, luôn lắng nghe và đáp
+						ứng mọi nhu cầu của khách hàng một cách nhanh chóng và hiệu quả nhất. Chúng tôi tin
+						rằng, mối quan hệ với khách hàng không chỉ là về việc bán hàng, mà còn là về việc
+						xây dựng niềm tin và sự tin tưởng về sau.
+						<br>
+						Chính vì vậy, hãy đến với Fam twen và trải nghiệm sự khác biệt mà giá trị chúng tôi
+						mang lại cho bạn. Chúng tôi sẽ luôn ở đây, sẵn sàng phục vụ và đồng hành cùng bạn
+						trên mọi hành trình của bạn.
+					</p>
+
+					<!--Grid column-->
+					<div class="col-auto">
+						<p class="pt-2 m-0">
+							<strong>ĐĂNG KÝ NHẬN TIN</strong>
+						</p>
+					</div>
+					<!--Grid column-->
+					<div class="row d-flex">
+						<!--Grid column-->
+						<div data-mdb-input-init class="col-md-8 col-8">
+							<!-- Email input -->
+							<div class="form-outline">
+								<input type="email" id="form5Example26" class="form-control" />
+								<label class="form-label" for="form5Example26">Email address</label>
+							</div>
+						</div>
+
+						<!--Grid column-->
+						<div class="col-auto mb-2">
+							<!-- Submit button -->
+							<button data-mdb-ripple-init type="submit" class="btn btn-primary">Đăng ký</button>
+						</div>
+						<hr>
+					</div>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-3">
+					<!-- Links -->
+					<h6 class="text-uppercase fw-bold mb-4">HỖ TRỢ KHÁCH HÀNG</h6>
+					<p>
+						<a href="#!" class="text-reset">Chính sách đổi hàng và bảo hành</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">Chính sách Membership</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">Chính sách ưu đãi sinh nhật</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">Chính sách bảo mật</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">Chính sách giao hàng tận nơi</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">Chính sách khuyến mãi đi kèm</a>
+					</p>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-3">
+					<!-- Links -->
+					<h6 class="text-uppercase fw-bold mb-4">HỆ THỐNG CỬA HÀNG</h6>
+					<p>
+						<a href="#!" class="text-reset">|Store 1: Bông Trang, H.Xuyên Mộc, BRVT</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">|Store 2: Bùi Đình Túy ,Bình Thạnh, HCM</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">|Store 3: Thảo Điền, TP.Thủ Đức, HCM</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">|Store 4: Linh Trung, TP.Thủ Đức, HCM</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">|Store 5: Phước Long B, TP.Thủ Đức, HCM</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">|Store 6: Bến Nghé, Q.1, HCM</a>
+					</p>
+					<p>
+						<a href="#!" class="text-reset">|Store 7: Nguyễn Cư Trinh, Q.1, HCM</a>
+					</p>
+				</div>
+				<!-- Grid column -->
+
+				<!-- Grid column -->
+				<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-3">
+					<!-- Links -->
+					<h6 class="text-uppercase fw-bold mb-4">FANPAGE CHÚNG TÔI</h6>
+					<p>
+						<a href="#!" class="text-reset">Phương Thức Thanh toán</a>
+					</p>
+					<p>
+						<i class="fab fa-cc-visa me-3"></i> Visa Card
+					</p>
+					<p>
+						<i class="fab fa-cc-mastercard me-3"></i> Master Card
+					</p>
+					<p>
+						<i class="far fa-credit-card me-3"></i> Credit Card
+					</p>
+					<p>
+						<i class="fas fa-hand-holding-dollar me-3"></i> Cash
+					</p>
+					<!--Grid column-->
+
+					<p class="pt-2">
+						<b>KẾT NỐI VỚI CHÚNG TÔI</b>
+					</p>
+
+					<div class="row d-flex align-items-center m-0 p-0">
+						<!-- Facebook -->
+						<a data-mdb-ripple-init class="btn text-white btn-floating mx-1"
+							style="background-color: #3b5998;" href="#!" role="button">
+							<i class="fab fa-facebook-f"></i>
+						</a>
+
+						<!-- Twitter -->
+						<a data-mdb-ripple-init class="btn text-white btn-floating mx-1"
+							style="background-color: #55acee;" href="#!" role="button">
+							<i class="fab fa-twitter"></i>
+						</a>
+
+						<!-- Google -->
+						<a data-mdb-ripple-init class="btn text-white btn-floating mx-1"
+							style="background-color: #dd4b39;" href="#!" role="button">
+							<i class="fab fa-google"></i>
+						</a>
+
+						<!-- Instagram -->
+						<a data-mdb-ripple-init class="btn text-white btn-floating mx-1"
+							style="background-color: #ac2bac;" href="#!" role="button">
+							<i class="fab fa-instagram"></i>
+						</a>
+
+						<!-- Linkedin -->
+						<a data-mdb-ripple-init class="btn text-white btn-floating mx-1"
+							style="background-color: #0082ca;" href="#!" role="button">
+							<i class="fab fa-linkedin-in"></i>
+						</a>
+						<!-- Github -->
+						<a data-mdb-ripple-init class="btn text-white btn-floating mx-1"
+							style="background-color: #333333;" href="#!" role="button">
+							<i class="fab fa-github"></i>
+						</a>
+						<!-- Section: Social media -->
+					</div>
+				</div>
+				<!-- Grid column -->
+			</div>
+			<!-- Grid row -->
+		</div>
+		<!-- Section: Links  -->
+
+		<!-- Copyright -->
+		<div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+			© 2024 Copyright:
+			<a class="text-reset fw-bold" href="https://mdbootstrap.com/">Famtwen.com</a>
+		</div>
+		<!-- Copyright -->
+	</footer>
+	<!-- Footer -->
+</body>
+</html>

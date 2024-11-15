@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CÁC BÀI TẬP CƠ BẢN JS</title>
+<script language="JavaScript">
+	function changeText(){
+		var name = document.getElementById("name");
+		var output = document.getElementById("output");
+
+		output.innerHTML = "Xin chào: " + name.value;
+	}
+</script>
+</head>
+<body>
+
+	Nhập vào tên của bạn:
+	<input type="text" id="name" onkeypress="changeText()" onchange="changeText()" />
+	<p id="output">Xin chào:</p>
+
+
+	<span id="my_span"> NỘI DUNG BAN ĐẦU</span>
+	<br>
+	<input type="button" id="change1" name="change1" value="Thay đổi" />
+
+	<br>
+	<script>
+	// Cách 1
+	var change1 = document.getElementById("change1")
+	change1.onclick = function(){
+		var my_div = document.getElementById("my_span");
+		my_span.textContent = "NỘI DUNG BỊ THAY ĐỔI";
+	}
+
+
+	// Cách 2
+	//function changeText(){
+		//var my_div = document.getElementById("my_div");
+		//my_div.innerHTML = "NỘI DUNG BỊ THAY ĐỔI";
+	//}
+	</script>
+	<br>
+
+	<div style="background-color: yellow;" id="my_div" onmouseover="changeColorGreen()"
+		onmouseleave="changeColorYellow()">
+
+		Bài 1: Tạo một input-text, khi người dùng nhập tên, trang web sẽ hiển thị nội dung: “Xin chào “ +
+		tên đã nhập.
+
+		<hr />
+
+		Bài 2: Viết chương trình khi người dùng nhấn nút sẽ thay đổi nội dung của đoạn trong 1 thẻ div
+		(bằng 2 cách).
+
+		<hr />
+		Bài 3: Viết chương trình thay đổi màu nền của thẻ div khi người dùng di chuyển chuột vào khi vực
+		nội bộ của thẻ div.
+
+	</div>
+
+    
+	<script>
+	function changeColorGreen(){
+		var my_div = document.getElementById("my_div");
+		my_div.style = "background-color: green;"
+	}
+	function changeColorYellow(){
+		var my_div = document.getElementById("my_div");
+		my_div.style = "background-color: yellow;"
+	}
+	</script>
+	
+	<br>
+	
+	<div style="background-color: black; color: white; font-size: 40px;" id="my_div1">
+
+		[Am]Chuyện cớ duyên do trời còn [Em]phận tại chúng ta <br>
+		[Dm]Nói yêu nhau một [G]đời mà [C]xa nhau mãi ngàn [G]trùng <br>
+		Chỉ là [Am]không còn bên nhau nữa mà lại [Em]gieo mình nơi tăm tối <br>
+		Biết đến [Dm]khi nào mới [Em]thấy lại ánh [Am]mặt trời [F] [G] [E7] <br>
+		<hr />
+
+		Vốn cuộc [F]sống đã chẳng bình yên vậy mà [Em]sao duyên phận cũng lận đận <br>
+		Trót [Dm]lấy tâm can [G]yêu một người không [C]đáng <br>
+		Lỡ đánh [F]rơi một nhịp yêu thương thôi Anh nhặt [Em]vội lên trao ai [Am]rồi <br>
+		Gió cuốn [Dm]mây hợp thành giông tố chắn ngang đường [E7]chia đường về hai lối <br>
+		<hr />
+		
+		Trời hóa cơn [Am]mưa lặng rơi bên thềm nỗi đau trong [Em]lòng trở nên hoá đá <br>
+		Chẳng thể [Dm]đứng lên được nữa [G]nước mắt rơi cùng với [C]vết mưa <br>
+		Hỏi trời sao [F]chẳng quân lấy những vấn vương với anh đã [Em]quá tuyệt [Am]vọng <br>
+		Vì người em [Dm]lỡ xem như sinh [Em]mệnh chẳng còn thiết [Am]tha <br>
+
+	</div>
+	<br>
+	
+	<button onclick="hidden_div()" id="my_button">Ẩn/Hiện</button>
+	<script>
+	var check = "hidden";
+
+	function hidden_div(){
+		//window.alert("Test");
+		var my_div = document.getElementById("my_div1");
+		if(check=="hidden"){
+			//my_div.style = "display: none;"
+			my_div.style.display = "none";
+			check = "show";
+		}else{
+			//my_div.style = "display: block;"
+			my_div.style.display = "block";
+			check = "hidden";
+		}
+	}
+	
+</script>
+
+</body>
+</html>

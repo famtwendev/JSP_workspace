@@ -1,0 +1,53 @@
+package util;
+
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Random;
+
+import database.KhachHangDAO;
+import model.KhachHang;
+
+public class tessttt {
+	public static void main(String[] args) {
+		String tenDangNhap = "nguyenphamtuyen2003";
+		String matKhau = "Famtwen2003@@";
+		String hoVaTen = "Nguyn Fam Twen";
+		String gioiTinh = "Nam";
+		String ngaySinh = "2002-01-22";
+		String diaChiKhachHang = "diaChiKhachHang";
+		String diaChiMuaHang = "diaChiMuaHang";
+		String diaChiNhanHang = "diaChiNhanHang";
+		String dienThoai ="dienThoai";
+		String email = "nguyenphamtuyen2003@gmail.com";
+		String dongYNhanEmail = "1";
+		KhachHangDAO khachHangDAO = new KhachHangDAO();
+		Random rd = new Random();
+		String maKhachHang = System.currentTimeMillis() + rd.nextInt(10) + "";
+		KhachHang kh = new KhachHang(maKhachHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, diaChiKhachHang,
+				diaChiNhanHang, diaChiMuaHang, Date.valueOf(ngaySinh), dienThoai, email,
+				dongYNhanEmail != null);
+		if(khachHangDAO.insert(kh)>0) {
+			
+			String otp = AuthenOTP.getSoNgauNhien();
+			
+			System.out.println(otp);
+			// Quy dinh thoi gian hieu luc
+			Date todaysDate = new Date(new java.util.Date().getTime());
+			Calendar c = Calendar.getInstance();
+			c.setTime(todaysDate);
+			c.add(Calendar.DATE, 1);
+			Date hieuLucXacThuc = new Date(c.getTimeInMillis());
+
+			// Trang thai xac thuc = false		 			
+			boolean trangThaiXacThuc = false;
+			
+			kh.setMaXacThuc(otp);
+			kh.setHieuLucMaXacThuc(hieuLucXacThuc);
+			kh.setTrangThaiXacThuc(trangThaiXacThuc);
+			
+			if(khachHangDAO.updateVerifyInformation(kh)>0) {
+				// Gui email cho khach hang
+				Email.sendEmail(kh.getEmail(), "Xác thực tài khoản tại Famtwen.com", getNoiDung(kh));
+			}
+	}
+}

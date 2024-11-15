@@ -1,0 +1,19 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	background-image: url(../img/background.jpg);
+	/* Đường dẫn đến hình nền */
+	background-size: cover;
+}
+
+.red {
+	color: red;
+}
+
+form {
+	background-color: rgba(255, 255, 255, 0.8); /* Màu nền trong suốt */
+	margin-top: 5rem;
+	padding: 20px;
+	border-radius: 10px;
+}

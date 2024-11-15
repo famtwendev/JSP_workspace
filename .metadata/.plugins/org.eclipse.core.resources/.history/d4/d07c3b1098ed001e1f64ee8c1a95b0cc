@@ -1,0 +1,22 @@
+package util;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Random;
+
+public class getIDrandom {
+	public static String generateUserId(LocalDate birth) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		String dateString = dateFormat.format(birth);
+		Random rand = new Random();
+		int randomNumber = 1000 + rand.nextInt(9000);
+		return String.valueOf(randomNumber) + dateString;
+	}
+
+	public static void main(String[] args) {
+		LocalDate birth = LocalDate.of(2024,02,20);// replace this with the actual birth date
+		String userId = generateUserId(birth);
+		System.out.println("User ID: " + userId);
+
+	}
+}

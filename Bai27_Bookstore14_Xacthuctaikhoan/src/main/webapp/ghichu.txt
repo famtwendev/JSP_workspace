@@ -1,0 +1,12 @@
+Tình huông gửi email:
+- xác thực tài khoản khách hàng
+- Xác thực trước khi thay đổi mật khẩu
+- Chúc mừng sinh nhật
+- Giới thiệu sản phẩm mới
+- Gửi thông báo sang email
+
+Phân tích: 
++ Xác thực:
+- Phải có 1 mã xác thực => Người dùng có thể nhập / nhấn vào link để xác thực
+- (có quản lý thời gian hiệu lực của mã)
+- Đã xác thực hay chưa?

@@ -1,0 +1,564 @@
+package controller;
+
+import java.awt.SystemColor;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.filters.ExpiresFilter.XServletOutputStream;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import database.KhachHangDAO;
+import model.KhachHang;
+import util.AuthenOTP;
+import util.Email;
+import util.MaHoa;
+import util.getpass;
+import util.mahoaemail;
+
+/**
+ * Servlet implementation class KhachHang
+ */
+@WebServlet(description = "gom nhom servlet KH", urlPatterns = { "/khach-hang" })
+public class KhachHangController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static final Pattern regexUsername = Pattern.compile("^[a-z0-9._-]{3,15}$");
+	private static final Pattern regexPass = Pattern
+			.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$");
+	private static final Pattern regexEmail = Pattern.compile("\\w+@\\w+(\\.\\w+)+(\\.\\w+)*");
+	private static final Pattern regexFullname = Pattern.compile("^[a-zA-Z][ ]*$");
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public KhachHangController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+
+		String hanhDong = request.getParameter("hanhDong");
+		if (hanhDong.equals("dang-nhap")) {
+			dangNhap(request, response);
+		}  else if (hanhDong.equals("dang-ky")) {
+			dangKy(request, response);
+		} else if (hanhDong.equals("xac-thuc")) {
+			xacThucDangKy(request, response);
+		} else if (hanhDong.equals("check-email")) {
+			checkEmail(request, response);
+		} else if (hanhDong.equals("xac-thuc-pwd")) {
+			xacThucPwd(request, response);
+		} else if (hanhDong.equals("create-new-pass")) {
+			forgotPwd(request, response);
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	private void dangNhap(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String tenDangNhap = request.getParameter("tenDangNhap");
+			String matKhau = request.getParameter("matKhau");
+
+			matKhau = MaHoa.toSHA1(matKhau);
+
+			KhachHang kh = new KhachHang();
+			kh.setTenDangNhap(tenDangNhap);
+			kh.setMatKhau(matKhau);
+
+			KhachHangDAO khdao = new KhachHangDAO();
+			KhachHang khachHang = khdao.selectByUserAndPassWord(kh);
+
+			String url = "";
+
+			if (khachHang != null && khachHang.isTrangThaiXacThuc()) {
+				HttpSession session = request.getSession();
+				session.setAttribute("khachHang", khachHang);
+				url = "/index.jsp";
+
+			} else if (khachHang == null) {
+				request.setAttribute("baoLoi", "Sai tên đăng nhập hoặc mật khẩu!");
+				url = "/KhachHang/dangnhap.jsp";
+			} else if (!khachHang.isTrangThaiXacThuc()) {
+				request.setAttribute("baoLoi", "Tài khoản chưa được xác thực!");
+				url = "/KhachHang/dangnhap.jsp";
+			}
+
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void dangKy(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String tenDangNhap = request.getParameter("tenDangNhap");
+			String matKhau = request.getParameter("matKhau");
+			String matKhauNhapLai = request.getParameter("matKhauNhapLai");
+			String hoVaTen = request.getParameter("hoVaTen");
+			String gioiTinh = request.getParameter("gioiTinh");
+			String ngaySinh = request.getParameter("ngaySinh");
+			String diaChiKhachHang = request.getParameter("diaChiKhachHang");
+			String diaChiMuaHang = request.getParameter("diaChiMuaHang");
+			String diaChiNhanHang = request.getParameter("diaChiNhanHang");
+			String dienThoai = request.getParameter("dienThoai");
+			String email = request.getParameter("email");
+			String dongYNhanEmail = (request.getParameter("dongYNhanEmail") != null) ? "1" : "";
+
+			request.setAttribute("tenDangNhap", tenDangNhap);
+			request.setAttribute("hoVaTen", hoVaTen);
+			request.setAttribute("gioiTinh", gioiTinh);
+			request.setAttribute("ngaySinh", ngaySinh);
+			request.setAttribute("diaChiKhachHang", diaChiKhachHang);
+			request.setAttribute("diaChiMuaHang", diaChiMuaHang);
+			request.setAttribute("diaChiNhanHang", diaChiNhanHang);
+			request.setAttribute("dienThoai", dienThoai);
+			request.setAttribute("email", email);
+			request.setAttribute("dongYNhanEmail", dongYNhanEmail);
+
+			String url = "";
+			boolean checkError = false;
+			KhachHangDAO khachHangDAO = new KhachHangDAO();
+
+			Matcher emailMatcher = regexEmail.matcher(email);
+			if (!emailMatcher.matches()) {
+				checkError = true;
+				request.setAttribute("e_emailFormat", "Vui lòng nhập đúng định dạng email!");
+			}
+
+			if (khachHangDAO.kiemTraEmail(email)) {
+				checkError = true;
+				request.setAttribute("e_email", "Email vừa nhập đã tồn tại tài khoản . Vui lòng đăng nhập! </br>");
+			}
+
+			Matcher userMatcher = regexUsername.matcher(tenDangNhap);
+			if (!userMatcher.matches() || khachHangDAO.kiemTraTenDangNhap(tenDangNhap)) {
+				checkError = true;
+				request.setAttribute("e_tenDangNhap", "Tên đăng nhập không hợp lệ hoặc đã được sử dụng.");
+			}
+			Matcher passMatcher = regexPass.matcher(matKhau);
+			if (!matKhau.equals(matKhauNhapLai)) {
+				checkError = true;
+				request.setAttribute("e_matKhau", "Mật khẩu không khớp. </br>");
+			} else if (!passMatcher.matches()) {
+				checkError = true;
+				request.setAttribute("e_matKhau", "Mật khẩu không hợp lệ!. </br>");
+			} else {
+				checkError = false;
+				matKhau = MaHoa.toSHA1(matKhau);
+			}
+
+			if (checkError) {
+				url = "/KhachHang/dangky.jsp";
+			} else {
+				Random rd = new Random();
+				String maKhachHang = System.currentTimeMillis() + rd.nextInt(10) + "";
+				KhachHang kh = new KhachHang(maKhachHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, diaChiKhachHang,
+						diaChiNhanHang, diaChiMuaHang, Date.valueOf(ngaySinh), dienThoai, email,
+						dongYNhanEmail != null);
+				if (khachHangDAO.insert(kh) > 0) {
+
+					String otp = AuthenOTP.getSoNgauNhien();
+
+					System.out.println(otp);
+					// Quy dinh thoi gian hieu luc
+					Date todaysDate = new Date(new java.util.Date().getTime());
+					Calendar c = Calendar.getInstance();
+					c.setTime(todaysDate);
+					c.add(Calendar.DATE, 1);
+					Date hieuLucXacThuc = new Date(c.getTimeInMillis());
+
+					// Trang thai xac thuc = false
+					boolean trangThaiXacThuc = false;
+
+					kh.setMaXacThuc(otp);
+					kh.setHieuLucMaXacThuc(hieuLucXacThuc);
+					kh.setTrangThaiXacThuc(trangThaiXacThuc);
+					if (khachHangDAO.updateVerifyInformation(kh) > 0) {
+						// Gui email cho khach hang
+						Email.sendEmail(kh.getEmail(), "Xác thực tài khoản tại Famtwen.com", getNoiDung(kh));
+						request.setAttribute("maKhachHang", maKhachHang);
+						request.setAttribute("emailkh", email);
+						request.getSession().setAttribute("khachHang", kh);
+					}
+				}
+				url = "/KhachHang/xacthucdangky.jsp";
+				HttpSession session = request.getSession();
+				session.setAttribute("xacthucdangky", true);
+			}
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void xacThucDangKy(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String url = "";
+			String maXacThuc = request.getParameter("first") + request.getParameter("second")
+					+ request.getParameter("third") + request.getParameter("fourth") + request.getParameter("fifth")
+					+ request.getParameter("sixth");
+			System.out.println(maXacThuc);
+			String maKhachHang = request.getParameter("maKhachHang");
+
+			KhachHangDAO khachHangDAO = new KhachHangDAO();
+
+			KhachHang kh = new KhachHang();
+			kh.setMaKhachHang(maKhachHang);
+			KhachHang khachHang = khachHangDAO.selectById(kh);
+
+			String msg = "";
+			if (khachHang != null) {
+				// Kiem tra ma xac thuc co giong nhau hay khong? // Kiem tra xem ma xac thuc con
+				// hieu luc hay khong?
+				if (khachHang.getMaXacThuc().equals(maXacThuc)) {
+					// Thanh Cong
+					khachHang.setTrangThaiXacThuc(true);
+					khachHangDAO.updateVerifyInformation(khachHang);
+					msg = "Xác thực thành công!";
+					url = "/KhachHang/thanhcong.jsp";
+				} else {
+					// That Bai
+					msg = "Mã xác thực sai hoặc đã hết hạn!";
+					url = "/KhachHang/thongbao.jsp";
+				}
+			} else {
+				msg = "Tài khoản không tồn tại!";
+				url = "/KhachHang/thongbao.jsp";
+			}
+			HttpSession session = request.getSession();
+			session.setAttribute("loixacthuc", true);
+			request.setAttribute("baoLoi", msg);
+			session.setAttribute("dangkythanhcong", true);
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+			session.invalidate();
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+//	private void xacThuc(HttpServletRequest request, HttpServletResponse response) {
+//		try {
+//			String maKhachHang = request.getParameter("maKhachHang");
+//			String maXacThuc = request.getParameter("maXacThuc");
+//
+//			KhachHangDAO khachHangDAO = new KhachHangDAO();
+//
+//			KhachHang kh = new KhachHang();
+//			kh.setMaKhachHang(maKhachHang);
+//			KhachHang khachHang = khachHangDAO.selectById(kh);
+//
+//			String msg = "";
+//			if (khachHang != null) {
+//				// Kiem tra ma xac thuc co giong nhau hay khong? // Kiem tra xem ma xac thuc con
+//				// hieu luc hay khong?
+//				if (khachHang.getMaXacThuc().equals(maXacThuc)) {
+//					// Thanh Cong
+//					khachHang.setTrangThaiXacThuc(true);
+//					khachHangDAO.updateVerifyInformation(khachHang);
+//					msg = "Xác thực thành công!";
+//				} else {
+//					// That Bai
+//					msg = "Xác thực không thành công!";
+//				}
+//			} else {
+//				msg = "Tài khoản không tồn tại!";
+//			}
+//			String url = "/KhachHang/thongbao.jsp";
+//			HttpSession session = request.getSession();
+//			session.setAttribute("loixacthuc", true);
+//			request.setAttribute("baoLoi", msg);
+//			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+//			rd.forward(request, response);
+//		} catch (ServletException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+// Cach nay tao mat khau ngau nhien
+//	private void xacThucPwd(HttpServletRequest request, HttpServletResponse response) {
+//		try {
+//			String url = "/KhachHang/thongbao.jsp";
+//			String msg = "";
+//			boolean checkError = false;
+//			String maXacThuc = request.getParameter("first") + request.getParameter("second")
+//					+ request.getParameter("third") + request.getParameter("fourth") + request.getParameter("fifth")
+//					+ request.getParameter("sixth");
+//			System.out.println(maXacThuc);
+//			String maKhachHang = request.getParameter("maKhachHang");
+//			System.out.println(maKhachHang);
+//
+//			KhachHangDAO khachHangDAO = new KhachHangDAO();
+//
+//			KhachHang kh = new KhachHang();
+//			kh.setMaKhachHang(maKhachHang);
+//			kh = khachHangDAO.selectById(kh);
+//			System.out.println(kh.toString());
+//			if (kh != null)
+//			{
+//				checkError = true;
+//			}
+//			if(checkError==true)
+//			 {
+//				// Kiem tra ma xac thuc co giong nhau hay khong? // Kiem tra xem ma xac thuc con
+//				// hieu luc hay khong?
+//				if (kh.getMaXacThuc().equals(maXacThuc)) {
+//					String pwd = getpass.generatePassword(15);
+//					System.out.println(pwd);
+//					// Thanh Cong
+//					kh.setTrangThaiXacThuc(true);
+//					khachHangDAO.updateVerifyInformation(kh);
+//					kh.setMatKhau(MaHoa.toSHA1(pwd));
+//					KhachHangDAO khd = new KhachHangDAO();
+//					if (khd.changePasswordForKH(kh)) {
+//						System.out.println("Đổi mật khẩu thành công!");
+//						// In ra thông báo thành công và chờ 5 giây trước khi quay lại trang chủ
+//						Email.sendEmail(kh.getEmail(), "Khôi phục mật khẩu tại Famtwen.com", getPwd(kh,pwd));
+//						msg = "Chúng tôi đã gửi mật khẩu mới để khôi phục đến email "
+//								+ mahoaemail.maHoaSao(kh.getEmail()) + ".";
+//						request.getSession().setAttribute("khachHang", kh);
+//					} else {
+//						System.out.println("Thay đổi mật khẩu thất bại!");
+//					}					
+//				} else {
+//					// That Bai
+//					msg = "Mã xác thực sai hoặc đã hết hạn!";
+//				}
+//			} else {
+//				msg = "Tài khoản không tồn tại!";
+//			}
+//			HttpSession session = request.getSession();
+//			session.setAttribute("loixacthuc", true);
+//			request.setAttribute("baoLoi", msg);
+//			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+//			rd.forward(request, response);
+//			session.invalidate();
+//		} catch (ServletException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+
+	private void checkEmail(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			boolean chechError = false;
+			String email = request.getParameter("email");
+			String url = "";
+			KhachHangDAO khachHangDAO = new KhachHangDAO();
+			if (!khachHangDAO.kiemTraEmail(email)) {
+				chechError = true;
+				request.setAttribute("e_email", "Email vừa nhập không có tài khoản . Vui lòng đăng ký! </br>");
+			}
+			if (chechError == true) {
+				url = "/KhachHang/checkemail.jsp";
+			} else {
+				String otp = AuthenOTP.getSoNgauNhien();
+				System.out.println(otp);
+				// Quy dinh thoi gian hieu luc
+				Date hieuLucXacThuc = new Date(System.currentTimeMillis() + (1 * 60 * 1000) + (30 * 1000));
+
+				// Trang thai xac thuc = false
+				boolean trangThaiXacThuc = false;
+				KhachHang kh = khachHangDAO.getKhachHangEmail(email);
+				kh.setMaXacThuc(otp);
+				kh.setHieuLucMaXacThuc(hieuLucXacThuc);
+				kh.setTrangThaiXacThuc(trangThaiXacThuc);
+				request.getSession().setAttribute("khachHang", kh);
+				if (khachHangDAO.updateVerifyInformation(kh) > 0) {
+					Email.sendEmail(kh.getEmail(), "Mã OTP xác thực tài khoản tại Famtwen.com", getNoiDung(kh));
+					request.setAttribute("maKhachHang", kh.getMaKhachHang());
+					request.setAttribute("email", email);
+					url = "/KhachHang/createnewpass.jsp";
+				}
+			}
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+			request.getSession().invalidate();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void xacThucPwd(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+					+ request.getContextPath();
+			String url = "/KhachHang/createnewpass.jsp";
+			boolean checkError = false;
+			String maXacThuc = request.getParameter("first") + request.getParameter("second")
+					+ request.getParameter("third") + request.getParameter("fourth") + request.getParameter("fifth")
+					+ request.getParameter("sixth");
+			String email = request.getParameter("email");
+			System.out.println("Email khach hang lay tu form:" + email);
+			System.out.println("Khach nhap vao:" + maXacThuc);
+
+			KhachHangDAO khachHangDAO = new KhachHangDAO();
+			KhachHang kh = khachHangDAO.getKhachHangEmail(email);
+			if (kh != null) {
+				checkError = true;
+			}
+			if (checkError == true) {
+				// Kiem tra ma xac thuc co giong nhau hay khong? // Kiem tra xem ma xac thuc con
+				// hieu luc hay khong?
+				if (kh.getMaXacThuc().equals(maXacThuc)) {
+					kh.setTrangThaiXacThuc(true);
+					khachHangDAO.updateVerifyInformation(kh);
+					request.setAttribute("email", email);
+					request.getSession().setAttribute("khachHang", kh);
+					url = "/KhachHang/forgotpass.jsp";
+				} else {
+					// That Bai
+					request.setAttribute("baoLoi", "Mã xác thực sai hoặc đã hết hạn!");
+				}
+			} else {
+				request.setAttribute("baoLoi", "Tài khoản không tồn tại!");
+			}
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+			request.getSession().invalidate();
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void forgotPwd(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String baoLoi = "";
+			String url = "/KhachHang/thongbao.jsp";
+			String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+					+ request.getContextPath();
+			String email = request.getParameter("email");
+			System.out.println("Email khach hang lay tu form:" + email);
+			String matKhauMoi = request.getParameter("matKhauMoi");
+			String matKhauMoiNhapLai = request.getParameter("matKhauMoiNhapLai");
+
+			KhachHangDAO khachHangDAO = new KhachHangDAO();
+			KhachHang kh = khachHangDAO.getKhachHangEmail(email);
+			System.out.println(kh.toString());
+			// Ma hoa matkhau de so sanh voi mat khau SQL
+			String matKhauHienTai_SHA1 = kh.getMatKhau();
+			String matKhauMoi_Sha1 = MaHoa.toSHA1(matKhauMoi);
+
+			request.setAttribute("baoLoi", "Không truy xuất được thông tin khách hàng!");
+			if (kh != null) {
+				Matcher passMatcher = regexPass.matcher(matKhauMoi);
+				if (!passMatcher.matches()) {
+					request.setAttribute("baoLoi",
+							"Sử dụng ít nhất 8 ký tự và kết hợp các chữ cái, số cùng ký hiệu để tạo mật khẩu mạnhSử dụng ít nhất 8 ký tự và kết hợp các chữ cái, số cùng ký hiệu để tạo mật khẩu mạnh");
+				} else if (!matKhauMoi.equals(matKhauMoiNhapLai)) {
+					request.setAttribute("baoLoi", "Mật khẩu nhập lại không khớp!");
+				} else if (matKhauMoi_Sha1.equals(matKhauHienTai_SHA1)) {
+					request.setAttribute("baoLoi", "Mật khẩu mới không được trùng với mật khẩu hiện tại");
+				} else {
+					kh.setMatKhau(matKhauMoi_Sha1);
+					if (khachHangDAO.changePasswordForKH(kh)) {
+						request.setAttribute("email", email);
+						request.getSession().setAttribute("khachHang", kh);
+						request.setAttribute("baoLoi", "Cập nhật mật khẩu thành công!");
+					} else {
+						request.setAttribute("baoLoi", "Thay đổi mật khẩu thất bại!");
+					}
+				}
+			}
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+			rd.forward(request, response);
+		} catch (
+
+		ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static String getNoiDung(KhachHang kh) {
+		String noiDung = "<p>C&ocirc;ng ty Famtwen xin ch&agrave;o bạn&nbsp;<strong>" + kh.getHoVaTen()
+				+ "</strong></p>\r\n"
+				+ "<p>Vui l&ograve;ng x&aacute;c thực t&agrave;i khoản của bạn bằng c&aacute;ch nhập m&atilde;&nbsp;<strong>"
+				+ kh.getMaXacThuc() + "</strong> , để x&aacute;c thực t&agrave;i khoản.</p>\r\n"
+				+ "<p>Đ&acirc;y l&agrave; email tự động, vui l&ograve;ng kh&ocirc;ng phản hồi email n&agrave;y.</p>\r\n"
+				+ "<p>Tr&acirc;n trọng cảm ơn.</p>";
+		return noiDung;
+	}
+//	public static String getNoiDung(KhachHang kh) {
+//		String link = "http://localhost:8080/Bai23_Bookstore10_ThayDoiThongTinKH/khach-hang?hanhDong=xac-thuc&maKhachHang="
+//				+ kh.getMaKhachHang() + "&maXacThuc=" + kh.getMaXacThuc();
+//		String noiDung = "<p>Famtwen xin ch&agrave;o bạn <strong>" + kh.getHoVaTen() + "</strong>,</p>\r\n"
+//				+ "<p>Vui l&ograve;ng x&aacute;c thực t&agrave;i khoản của bạn bằng c&aacute;ch nhập m&atilde; <strong>"
+//				+ kh.getMaXacThuc() + "</strong>, hoặc click trực tiếp v&agrave;o đường link sau đ&acirc;y:</p>\r\n"
+//				+ "<p><a href=\"" + link + "\">" + link + "</a></p>\r\n"
+//				+ "<p>Đ&acirc;y l&agrave; email tự động, vui l&ograve;ng kh&ocirc;ng phản hồi email n&agrave;y.</p>\r\n"
+//				+ "<p>Tr&acirc;n trọng cảm ơn.</p>";
+//		return noiDung;
+//	}
+
+//	public static String getPwd(KhachHang kh, String pwd) {
+//		String noiDung = "<p>Famtwen xin ch&agrave;o bạn&nbsp;<strong>" + kh.getHoVaTen() + "</strong>,</p>\r\n"
+//				+ "<p>Mật khẩu mới để đăng nhập t&agrave;i khoản của bạn l&agrave;:<strong>" + pwd + "</strong></p>\r\n"
+//				+ "<p>Sau khi đăng nhập bằng mật khẩu mới cấp. Qu&yacute; kh&aacute;ch vui l&ograve;ng v&agrave;o phần đổi mật khẩu để đặt lại mật khẩu mới ph&ugrave; hợp với bản th&acirc;n.</p>\r\n"
+//				+ "<p>&nbsp;</p>\r\n"
+//				+ "<p>Đ&acirc;y l&agrave; email tự động, Vui l&ograve;ng kh&ocirc;ng phản hồi email n&agrave;y!</p>\r\n"
+//				+ "<p>Famtwen, tr&acirc;n trọn cảm ơn.</p>";
+//		return noiDung;
+//	}
+
+}
